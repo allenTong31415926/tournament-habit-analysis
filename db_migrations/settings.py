@@ -82,7 +82,7 @@ DATABASES = {
         'USER': 'user',
         'PASSWORD': 'password',
         'HOST': 'db',  # Name of the service defined in docker-compose
-        'PORT': '5432',
+        'PORT': '5432'
     }
 }
 
