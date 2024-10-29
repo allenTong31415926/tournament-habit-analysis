@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+
+# Ignore user-specific settings
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/dataSources/
+
+# Keep project-related settings
+.idea/misc.xml
+.idea/modules.xml
+.idea/*.iml
