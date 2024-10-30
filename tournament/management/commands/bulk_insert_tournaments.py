@@ -3,6 +3,7 @@
 from django.core.management.base import BaseCommand
 from tournament.models import Tournament
 
+
 class Command(BaseCommand):
     help = 'Bulk insert tournaments into the database'
 
