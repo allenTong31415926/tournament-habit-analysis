@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tournament Chart</title>
+</head>
+<body>
+    <!-- Dropdown selection box for sports -->
+    <form method="GET" action="{% url 'tournament_chart' %}">
+        <select name="sport" onchange="this.form.submit();">
+            <option value="" {% if not selected_sport %}selected{% endif %}>-- Select Sport --</option>
+            <option value="baseball" {% if selected_sport == "baseball" %}selected{% endif %}>Baseball</option>
+            <option value="basketball" {% if selected_sport == "basketball" %}selected{% endif %}>Basketball</option>
+            <option value="tennis" {% if selected_sport == "tennis" %}selected{% endif %}>Tennis</option>
+            <option value="karate" {% if selected_sport == "karate" %}selected{% endif %}>Karate</option>
+        </select>
+    </form>
+
+    <!-- Conditional display for chart -->
+    <div class="chart-container">
+        {% if graphic %}
+            <img src="data:image/png;base64,{{ graphic }}" alt="Tournament Chart">
+        {% else %}
+            <p>No data to display. Please select a sport.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
