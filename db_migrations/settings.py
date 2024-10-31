@@ -144,23 +144,18 @@ LOGGING = {
         },
     },
     'handlers': {
-        'console': {
+        'console': {  # Only use console logging
             'class': 'logging.StreamHandler',
             'formatter': 'simple',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'debug.log'),
-            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',  # Set to 'DEBUG' to capture all log levels
+            'handlers': ['console'],  # Only log to console
+            'level': 'DEBUG',
         },
-        'tournament': {  # Custom logger for your app (e.g., tournament)
-            'handlers': ['console', 'file'],
+        'tournament': {  # Adjust to match your app's logger
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
         },
