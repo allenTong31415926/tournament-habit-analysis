@@ -8,10 +8,6 @@ from .models import Tournament
 
 
 def tournament_chart(request):
-    logger = logging.getLogger('tournament')
-    logger.debug(f"=========================")
-    # logger.debug(f"Selected sport: {selected_sport}")
-
     selected_sport = request.GET.get('sport', '')
 
     # If no sport is selected, return without generating the chart
