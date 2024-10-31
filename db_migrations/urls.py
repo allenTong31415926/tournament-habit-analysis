@@ -18,5 +18,5 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('tournament/', include('tournament.urls')),
+    path('', include('tournament.urls')),
 ]
