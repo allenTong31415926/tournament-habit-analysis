@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -128,3 +129,69 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+'''
+The logger is used in views as as below:
+
+1. Import the logging module to use the global logger
+
+    import logging
+
+2. Get the global (root) logger by calling logging.getLogger() without a name.
+   This uses the root logger configuration from settings.py.
+
+    logger = logging.getLogger()
+
+3. Log a debug message
+
+    1)DEBUG is the lowest level, used for detailed diagnostic information.
+    
+    logger.debug("Debug: Entered some_view function")
+    
+    2)INFO is used for general information about program operation.
+    
+    logger.info("Info: some_view function was accessed")
+    
+    3)WARNING indicates a potential issue that isn't necessarily an error.
+    
+    logger.warning("Warning: This is a sample warning message in some_view")
+    
+    4)ERROR indicates a serious problem, typically an exception or failed operation.
+    
+    logger.error("Error: Something went wrong in some_view")
+    
+    5)CRITICAL is the highest level, indicating a severe error.
+    
+    logger.critical("Critical: A critical issue occurred in some_view")
+'''
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {  # This is the global logger configuration
+        'handlers': ['console'],
+        'level': 'DEBUG',  # Adjust level as needed
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
