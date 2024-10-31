@@ -42,6 +42,7 @@ def tournament_chart(request):
     ax1.set_title(f'Number of {selected_sport.capitalize()} Tournaments by Format')
     ax1.set_xlabel('Format')
     ax1.set_ylabel('Number of Tournaments')
+    ax1.set_ylim(0)  # Ensure y-axis starts at 0
 
     # Display count above each bar
     for bar, count in zip(bars_formats, formats_counts):
@@ -57,6 +58,7 @@ def tournament_chart(request):
     ax2.set_title(f'Number of {selected_sport.capitalize()} Tournaments by Team/Player')
     ax2.set_xlabel('Type')
     ax2.set_ylabel('Number of Tournaments')
+    ax2.set_ylim(0)  # Ensure y-axis starts at 0
 
     # Display count above each bar
     for bar, count in zip(bars_team_player, team_player_counts):
