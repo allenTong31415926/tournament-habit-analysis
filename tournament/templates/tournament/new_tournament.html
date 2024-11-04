@@ -1,0 +1,17 @@
+<!-- tournament/templates/tournament/new_tournament.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Tournament</title>
+</head>
+<body>
+    <h1>Create a New Tournament</h1>
+    <form method="post" action="{% url 'create_tournament' %}">  <!-- Set action to the POST route -->
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Render the form fields -->
+        <button type="submit">Create Tournament</button>
+    </form>
+</body>
+</html>
