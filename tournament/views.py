@@ -3,8 +3,28 @@ import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
 import logging
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Tournament
+from .forms import TournamentForm
+
+
+# View to display the form (GET request)
+def new_tournament(request):
+    form = TournamentForm()  # Create an empty form instance for the GET request
+    return render(request, 'tournament/new_tournament.html', {'form': form})
+
+
+# View to handle the form submission (POST request)
+def create_tournament(request):
+    if request.method == 'POST':
+        form = TournamentForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the new tournament to the database
+            return redirect('tournament_chart')  # Redirect to the chart view after creation
+    else:
+        form = TournamentForm()  # Redisplay the form if it wasn't a POST request (for safety)
+
+    return render(request, 'tournament/new_tournament.html', {'form': form})
 
 
 def tournament_chart(request):
