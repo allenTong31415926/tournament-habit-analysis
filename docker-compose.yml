@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   web:
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     build: .
     ports:
       - "8000:8000"
