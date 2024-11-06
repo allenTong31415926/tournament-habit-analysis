@@ -2,10 +2,12 @@
 import matplotlib.pyplot as plt
 import base64
 from io import BytesIO
-import logging
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_GET
 from .models import Tournament
 from .forms import TournamentForm
+from .utils import get_tournament_trends
 
 
 # View to display the form (GET request)
@@ -95,3 +97,13 @@ def tournament_chart(request):
 
     # Pass the encoded image and selected sport to the template
     return render(request, 'tournament/tournament_chart.html', {'graphic': graphic, 'selected_sport': selected_sport})
+
+
+@require_GET
+def tournament_trends(request):
+    sport = request.GET.get('sport', '').lower()
+    if not sport:
+        return JsonResponse({"error": "Sport not specified"}, status=400)
+
+    trends = get_tournament_trends(sport)
+    return JsonResponse(trends)

@@ -1,5 +1,3 @@
-<!-- tournament/templates/tournament/new_tournament.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +6,107 @@
 </head>
 <body>
     <h1>Create a New Tournament</h1>
-    <form method="post" action="{% url 'create_tournament' %}">  <!-- Set action to the POST route -->
+    <form method="post" action="{% url 'create_tournament' %}">
         {% csrf_token %}
-        {{ form.as_p }}  <!-- Render the form fields -->
+
+        <!-- Name Textbox -->
+        <label for="id_name">Tournament Name:</label>
+        <input type="text" id="id_name" name="name" required>
+
+        <!-- Sport selection with event listener for dynamic options -->
+        <label for="id_sports">Select Sport:</label>
+        <select id="id_sports" name="sports" required>
+            <option value="">Choose a sport</option>
+            <option value="1">Baseball</option>
+            <option value="2">Basketball</option>
+            <option value="3">Tennis</option>
+            <option value="4">Karate</option>
+        </select>
+
+        <!-- Format Dropdown with integer values -->
+        <label for="id_format">Select Format:</label>
+        <select id="id_format" name="format" required>
+            <option value="">Choose a format</option>
+            <option value="1">Round Robin</option>
+            <option value="2">Single Elimination</option>
+            <option value="3">Double Elimination</option>
+        </select>
+
+        <!-- Team/Player Dropdown with integer values -->
+        <label for="id_team_player">Select Team/Player:</label>
+        <select id="id_team_player" name="team_player" required>
+            <option value="">Choose Team/Player</option>
+            <option value="1">Team</option>
+            <option value="2">Player</option>
+        </select>
+
         <button type="submit">Create Tournament</button>
     </form>
+
+    <script>
+    // Define all options for format and team_player with integers as values
+    const formatOptions = [
+        { value: 1, text: "Round Robin" },
+        { value: 2, text: "Single Elimination" },
+        { value: 3, text: "Double Elimination" }
+    ];
+
+    const teamPlayerOptions = [
+        { value: 1, text: "Team" },
+        { value: 2, text: "Player" }
+    ];
+
+    // Fetch and update format and team/player options based on selected sport
+    document.getElementById('id_sports').addEventListener('change', function() {
+        const sport = this.value;
+        if (sport) {
+            // Fetch trends based on selected sport
+            fetch(`/tournament/trends/?sport=${sport}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Update format options with trends, keeping other options in original order
+                    updateOptions('id_format', formatOptions, data.formats);
+
+                    // Update team/player options with trends, keeping other options in original order
+                    updateOptions('id_team_player', teamPlayerOptions, data.team_player);
+                })
+                .catch(error => console.error('Error fetching trends:', error));
+        } else {
+            // Reset to default options if no sport is selected
+            resetOptions('id_format', formatOptions);
+            resetOptions('id_team_player', teamPlayerOptions);
+        }
+    });
+
+    // Function to update dropdown options with trends and keep other options in original order
+    function updateOptions(selectId, allOptions, trends) {
+        const select = document.getElementById(selectId);
+        select.innerHTML = '<option value="">Choose an option</option>'; // Clear current options and retain default
+
+        // Insert the options, with trend option selected if present
+        allOptions.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.value;
+            opt.text = option.text;
+            if (trends && trends.includes(option.value)) {
+                opt.selected = true;  // Select if it matches a trend
+            }
+            select.appendChild(opt);
+        });
+    }
+
+    // Function to reset dropdown to default options without trends
+    function resetOptions(selectId, defaultOptions) {
+        const select = document.getElementById(selectId);
+        select.innerHTML = ''; // Clear current options
+        select.appendChild(new Option("Choose an option", ""));
+        defaultOptions.forEach(optionData => {
+            const opt = document.createElement('option');
+            opt.value = optionData.value;
+            opt.text = optionData.text;
+            select.appendChild(opt);
+        });
+    }
+    </script>
 </body>
 </html>
