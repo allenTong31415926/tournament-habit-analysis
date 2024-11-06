@@ -14,9 +14,9 @@ es = Elasticsearch(os.getenv("ELASTICSEARCH_URL", "http://localhost:9200"))
 def index_tournament_in_elasticsearch(sender, instance, **kwargs):
     # Prepare the document for Elasticsearch
     doc = {
-        "sports": instance.get_sports_display().replace(" ", "_").lower(),
-        "format": instance.get_format_display().replace(" ", "_").lower(),
-        "team_player": instance.get_team_player_display().replace(" ", "_").lower(),
+        "sports": instance.sports,
+        "format": instance.format,
+        "team_player": instance.team_player
     }
     # Index the document in Elasticsearch
     es.index(index="tournaments", id=instance.id, document=doc)
